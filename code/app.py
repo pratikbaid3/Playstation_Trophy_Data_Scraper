@@ -7,10 +7,11 @@ api=Api(app)
 
 class PS4Games(Resource):
     def get(self):
+        search=request.args.get('search','')
         page=request.args.get('page', 1)
         count=request.args.get('count', 50)
         try:
-            game_list=ps4_games.get_games(page,count)
+            game_list=ps4_games.get_games(page,count,search)
             if(game_list=='Error'):
                 raise
             return {'result':{'games':game_list,'page':page,'count':count}}

@@ -2,7 +2,7 @@
 import sqlite3
 
 #Get all the games
-def get_games(page,count):
+def get_games(page,count,search):
     try:
         page=int(page)
         count=int(count)
@@ -10,7 +10,8 @@ def get_games(page,count):
 
         conn=sqlite3.connect('PS4_Game_Database.db')
         c=conn.cursor()
-        c.execute(f'SELECT * FROM PS4_Games ORDER BY game_name LIMIT {lower_limit},{count}')
+        query=f'"%{search}%"'
+        c.execute(f'SELECT * FROM PS4_Games WHERE game_name LIKE {query} ORDER BY game_name LIMIT {lower_limit},{count}')
         games=c.fetchall()
         game_list=[]
         for data in games:
